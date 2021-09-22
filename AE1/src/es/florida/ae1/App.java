@@ -3,10 +3,37 @@ package es.florida.ae1;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class App {
 
+	static Scanner scan = new Scanner(System.in);
+
 	public static void main(String[] args) {
+		int op = scan.nextInt();
+		switch (op) {
+		case 1:
+			sayHello();
+			break;
+		case 2:
+			muestraCompas();
+			break;
+		case 3:
+			int limite = Integer.parseInt(args[0]);
+			sumaPares(limite);
+			break;
+		case 4:
+			factorial();
+			break;
+		case 5:
+			int[] arrayPrueba = { 1, 5, 48, 12, 33, 128, 11, 42 };
+			mayorDelArray(arrayPrueba);
+			break;
+		case 6:
+			sumaArray();
+			break;
+
+		}
 
 	}
 
@@ -62,6 +89,20 @@ public class App {
 	public static void mayorDelArray(int[] lista) {
 		int max = Arrays.stream(lista).max().getAsInt();
 		System.out.println("El numero mas grande es: " + max);
+	}
+
+	// Actividad 6
+	public static void sumaArray() {
+		int[] nums = new int[5];
+		for (int i = 0; i < nums.length; i++) {
+			nums[i] = scan.nextInt();
+		}
+		int suma = 0;
+		for (int j = nums.length; j >= 0; j--) {
+			System.out.println(nums[j]);
+			suma += nums[j];
+		}
+		System.out.println("La suma de todos los valores es: " + suma);
 	}
 
 }
