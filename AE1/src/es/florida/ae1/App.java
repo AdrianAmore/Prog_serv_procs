@@ -1,6 +1,7 @@
 package es.florida.ae1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class App {
@@ -55,6 +56,12 @@ public class App {
 			fact *= i;
 		}
 		System.out.println("El factorial es: " + fact);
+	}
+
+	// Actividad 5
+	public static void mayorDelArray(int[] lista) {
+		int max = Arrays.stream(lista).max().getAsInt();
+		System.out.println("El numero mas grande es: " + max);
 	}
 
 }
