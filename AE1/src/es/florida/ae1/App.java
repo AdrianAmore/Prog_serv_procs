@@ -48,4 +48,13 @@ public class App {
 		System.out.println("El resultado es: " + suma);
 	}
 
+	// Actividad 4
+	public static void factorial() {
+		int fact = 1;
+		for (int i = 1; i <= 15; i++) {
+			fact *= i;
+		}
+		System.out.println("El factorial es: " + fact);
+	}
+
 }
