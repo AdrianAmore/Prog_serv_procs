@@ -36,7 +36,16 @@ public class App {
 			System.out.println(compasLista.get(i));
 		}
 	}
-	//Actividad 3
-	
+
+	// Actividad 3
+	public static void sumaPares(int limite) {
+		int suma = 0;
+		for (int i = 1; i <= limite; i++) {
+			if (i % 2 == 0) {
+				suma += i;
+			}
+		}
+		System.out.println("El resultado es: " + suma);
+	}
 
 }
