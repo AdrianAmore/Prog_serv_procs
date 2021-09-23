@@ -10,6 +10,7 @@ public class App {
 	static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		System.out.print("Introduce una opción (1-8): ");
 		int op = scan.nextInt();
 		switch (op) {
 		case 1:
@@ -31,6 +32,12 @@ public class App {
 			break;
 		case 6:
 			sumaArray();
+			break;
+		case 7:
+			salarioDesarrollador();
+			break;
+		default:
+			System.out.println("Opción no válida.");
 			break;
 
 		}
@@ -95,14 +102,36 @@ public class App {
 	public static void sumaArray() {
 		int[] nums = new int[5];
 		for (int i = 0; i < nums.length; i++) {
+			System.out.print("Introduce un numero: ");
 			nums[i] = scan.nextInt();
 		}
 		int suma = 0;
-		for (int j = nums.length; j >= 0; j--) {
-			System.out.println(nums[j]);
+		System.out.print("Numeros en orden inverso: ");
+		for (int j = (nums.length - 1); j >= 0; j--) {
+			System.out.print(nums[j] + " ");
 			suma += nums[j];
 		}
+		System.out.println("");
 		System.out.println("La suma de todos los valores es: " + suma);
 	}
 
+	// Actividad 7
+	public static void salarioDesarrollador() {
+		System.out.print("Introduce tu nombre: ");
+		String nombre = scan.next();
+		System.out.print("Introduce cuantos años llevas trabajando: ");
+		int anyos = scan.nextInt();
+		if (anyos < 1) {
+			System.out.println("Desarrollador Junior L1 – 15000-18000");
+		} else if (anyos < 3 && anyos > 0) {
+			System.out.println("Desarrollador Junior L2 – 18000-22000");
+		} else if (anyos <= 5 && anyos > 2) {
+			System.out.println("Desarrollador Senior L1 – 22000-28000");
+		} else if (anyos <= 8 && anyos > 4) {
+			System.out.println("Desarrollador Senior L2 – 28000-36000");
+		} else {
+			System.out.println("Analista / Arquitecto. Salario a convenir en base a rol");
+		}
+
+	}
 }
