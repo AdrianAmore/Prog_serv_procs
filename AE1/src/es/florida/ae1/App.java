@@ -36,6 +36,9 @@ public class App {
 		case 7:
 			salarioDesarrollador();
 			break;
+		case 8:
+			intervalos();
+			break;
 		default:
 			System.out.println("Opción no válida.");
 			break;
@@ -133,5 +136,38 @@ public class App {
 			System.out.println("Analista / Arquitecto. Salario a convenir en base a rol");
 		}
 
+	}
+
+	// Actividad 8
+	public static void intervalos() {
+		System.out.print("Introduce el primer extremo: ");
+		int n1 = scan.nextInt();
+		System.out.print("Introduce el segundo extremo: ");
+		int n2 = scan.nextInt();
+		long inicio = System.currentTimeMillis();
+		for (int i = n1; i <= n2; i++) {
+			if (esPrimo(i)) {
+				System.out.println(i + " Es primo");
+			} else {
+				System.out.println(i + " NO es primo");
+			}
+
+		}
+		long fin = System.currentTimeMillis();
+
+		System.out.println("Ha tardado " + (fin - inicio) + " milisegundos");
+	}
+
+	// Funcion que comprueba primos
+	static boolean esPrimo(int n) {
+		// revisa si n es multiplo de 2
+		if (n % 2 == 0)
+			return false;
+		// si no, solo revisa los impares
+		for (int i = 3; i * i <= n; i += 2) {
+			if (n % i == 0)
+				return false;
+		}
+		return true;
 	}
 }
