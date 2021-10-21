@@ -1,0 +1,97 @@
+package es.florida.AE2_PSP;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class App {
+	
+	
+	public static void creaCarpeta(File f) {
+
+			String dir = f + "//Probabilitats_NEOs";
+			File f1 = new File(dir);
+			f1.mkdirs();
+	}
+	
+	public static void creaFitxer(String path, String name) {
+
+		try {
+			String dir = path + "/" + name + ".txt";
+			File f1 = new File(dir);
+			f1.createNewFile();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	
+	
+	
+	
+
+	
+	//Recibe la ruta de un fichero en forma de string, lo lee y lo devuelve en un string.
+	public static String leer(String path) {
+		String data = "";
+		try {
+			File myObj = new File(path);
+			Scanner myReader = new Scanner(myObj);
+
+			while (myReader.hasNextLine()) {
+				data += myReader.nextLine() + ","; //Lee la linea y le añade una coma para poder separarla mas tarde.
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	
+	//Recibe como parametros la posción y velocidad del NEO en forma de double y retorna un resultado en forma de double.
+	public static double calcularColision(double posicionNEO, double velocidadNEO) {
+		double posicionTierra = 1;
+		double velocidadTierra = 100;
+		for (int i = 0; i < (50 * 365 * 24 * 60 * 60); i++) {
+			posicionNEO = posicionNEO + velocidadNEO * i;
+			posicionTierra = posicionTierra + velocidadTierra * i;
+		}
+		double resultado = 100 * Math.random()
+				* Math.pow(((posicionNEO - posicionTierra) / (posicionNEO + posicionTierra)), 2);
+		return resultado;
+	}
+
+	public static void main(String[] args) {
+		String str = leer("NEOs.txt");
+		List<String> lista = Arrays.asList(str.split(",")); // Array que obtiene los valores separados por una coma
+		File p = new File(System.getProperty("user.dir"));
+		creaCarpeta(p);
+		for (int i = 0; i < lista.size(); i++) {
+
+			if (i % 3 != 0 && (i + 1) % 3 != 0) {
+				
+				double result = calcularColision(Double.parseDouble(lista.get(i)), Double.parseDouble(lista.get(i + 1)));
+				BigDecimal bd = new BigDecimal(result);
+				bd = bd.setScale(2, RoundingMode.HALF_UP);
+				
+				System.out.println(lista.get(i -1)+ ": " + bd);
+				creaFitxer(System.getProperty("user.dir"),lista.get(i -1));
+				if(result > 10) {
+					System.err.println("AVISO DE COLISION INMINENTE!");
+				}else {
+					System.err.println("Probabilidad de colision baja");
+				}
+			}
+			
+
+
+		}
+	}
+
+}

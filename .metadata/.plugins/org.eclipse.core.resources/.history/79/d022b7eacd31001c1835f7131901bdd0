@@ -1,0 +1,62 @@
+package es.florida.AE2_PSP;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class Pruebas {
+
+	public static String leer(String path) {
+		String data = "";
+		try {
+			File myObj = new File(path);
+			Scanner myReader = new Scanner(myObj);
+
+			while (myReader.hasNextLine()) {
+				data += myReader.nextLine() + ",";
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	public static double calcularColision(double posicionNEO, double velocidadNEO) {
+		double posicionTierra = 1;
+		double velocidadTierra = 100;
+		for (int i = 0; i < (50 * 365 * 24 * 60 * 60); i++) {
+			posicionNEO = posicionNEO + velocidadNEO * i;
+			posicionTierra = posicionTierra + velocidadTierra * i;
+		}
+		double resultado = 100 * Math.random()
+				* Math.pow(((posicionNEO - posicionTierra) / (posicionNEO + posicionTierra)), 2);
+		return resultado;
+	}
+
+	public static void main(String[] args) {
+		String str = leer("NEOs.txt");
+		List<String> lista = Arrays.asList(str.split(","));
+		DecimalFormat df = new DecimalFormat("#.00");
+		System.out.println("Primero: " + (double) Math.round(calcularColision(1.1, 10.1) * 100d) / 100d);
+
+		for (int i = 0; i < lista.size(); i++) {
+
+			if (i % 3 != 0 && (i + 1) % 3 != 0) {
+
+				var a = lista.get(i);
+				var b = lista.get(i + 1);
+				System.out.println("posicionNEO: " + a);
+				System.out.println("velocidadNEO: " + b);
+				System.out.println((double) Math
+						.round(calcularColision(Double.parseDouble(a), Double.parseDouble(b)) * 100d) / 100d);
+			}
+
+		}
+	}
+}

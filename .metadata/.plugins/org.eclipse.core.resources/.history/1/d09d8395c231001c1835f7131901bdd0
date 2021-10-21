@@ -1,0 +1,108 @@
+package es.florida.AE2_PSP;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class App {
+
+	public static void escribir(String archivo, String escritura) {
+		try {
+			FileWriter myWriter = new FileWriter(archivo+".txt");
+			myWriter.write(escritura);
+			myWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Recibe un file con la ruta donde se va a crear la carpeta y la crea.
+	// Aun que no era necesario he decidido agrupar los archivos de texto dentro de
+	// una carpeta para mayor organización.
+	public static void creaCarpeta(File f) {
+
+		String dir = f + "//Probabilitats_NEOs"; // Y le asigna el nombre para crearla.
+		File f1 = new File(dir);
+		f1.mkdirs();
+	}
+
+	// Recibe la ruta donde se va a crear el fichero y el nombre que se le va a dar
+	// y crea un archivo de texto.
+	public static void creaFitxer(String path, String name) {
+
+		try {
+			String dir = path + "/" + name + ".txt"; // Al nombre le asigna .txt para poder crear el archivo de texto.
+			File f1 = new File(dir);
+			f1.createNewFile();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	// Recibe la ruta de un fichero en forma de string, lo lee y lo devuelve en un
+	// string.
+	public static String leer(String path) {
+		String data = "";
+		try {
+			File myObj = new File(path);
+			Scanner myReader = new Scanner(myObj);
+
+			while (myReader.hasNextLine()) {
+				data += myReader.nextLine() + ","; // Lee la linea y le añade una coma para poder separarla mas tarde.
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	// Recibe como parametros la posción y velocidad del NEO en forma de double y
+	// retorna un resultado en forma de double.
+	public static double calcularColision(double posicionNEO, double velocidadNEO) {
+		double posicionTierra = 1;
+		double velocidadTierra = 100;
+		for (int i = 0; i < (50 * 365 * 24 * 60 * 60); i++) {
+			posicionNEO = posicionNEO + velocidadNEO * i;
+			posicionTierra = posicionTierra + velocidadTierra * i;
+		}
+		double resultado = 100 * Math.random()
+				* Math.pow(((posicionNEO - posicionTierra) / (posicionNEO + posicionTierra)), 2);
+		return resultado;
+	}
+
+	public static void main(String[] args) {
+		String str = leer("NEOs.txt");
+		List<String> lista = Arrays.asList(str.split(",")); // Array que obtiene los valores separados por una coma.
+		File p = new File(System.getProperty("user.dir")); //Obtenemos el directorio actual.
+		creaCarpeta(p);
+		for (int i = 0; i < lista.size(); i++) {
+
+			if (i % 3 != 0 && (i + 1) % 3 != 0) { //Cogemos los valores que no son el nombre
+
+				double result = calcularColision(Double.parseDouble(lista.get(i)),
+						Double.parseDouble(lista.get(i + 1)));
+				BigDecimal bd = new BigDecimal(result);
+				bd = bd.setScale(2, RoundingMode.HALF_UP);
+
+				System.out.println(lista.get(i - 1) + ": " + bd);
+				creaFitxer(p.toString() + "/Probabilitats_NEOs", lista.get(i - 1));
+				String ruta = p.toString()+"/Probabilitats_NEOs/"+lista.get(i - 1);
+				escribir(ruta,bd.toString()+"% de probabilidades de impacto");
+				if (result > 10) {
+					System.err.println("AVISO DE COLISION INMINENTE!");
+				} else {
+					System.out.println("Probabilidad de colision baja");
+				}
+			}
+		}
+	}
+
+}
