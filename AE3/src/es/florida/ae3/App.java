@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class App {
 
 	public static void main(String[] args) {
+		Ventilador vent = new Ventilador();
 		Mina mine = new Mina(1000);
 		ArrayList<Minero> miners = new ArrayList<Minero>();
 		Thread t;
