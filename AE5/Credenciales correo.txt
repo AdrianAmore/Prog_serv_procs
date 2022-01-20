@@ -1,0 +1,4 @@
+Correo: ae5t5@gmail.com
+Contraseña: !n2XNb7B
+
+Poniendo el tuyo en el comando de postman debería funcionar también
